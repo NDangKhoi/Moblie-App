@@ -175,47 +175,104 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                 ],
               ),
             ),
-            Container(
-              padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              decoration: BoxDecoration(
-                color: const Color(0xffc7e5ff),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Column(
-                children: [
-                  InkWell(
-                    onLongPress: () {
-                      _dataRTDB.child('System/Reset').set("ON");
-                    },
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(5),
-                            child: Image.asset(
-                              reset != 'OFF'
-                                  ? 'images/ICON/Reset-ON.png'
-                                  : 'images/ICON/Reset_OFF.png',
-                              scale: 8,
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 200),
+              transitionBuilder: (Widget child, Animation<double> animation) {
+                return ScaleTransition(
+                  scale: animation,
+                  child: child,
+                );
+              },
+              child: !isRoof
+                  ? InkWell(
+                      key: const ValueKey('Roof_OFF'),
+                      onTap: () {
+                        if (mode == 'Manual') {
+                          _dataRTDB.child('System/Manual/Stepper').set("ON");
+                        }
+                      },
+                      child: Container(
+                        padding:
+                            const EdgeInsets.only(left: 15, right: 15, top: 10),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
+                        decoration: BoxDecoration(
+                          color: const Color(0xff9848E2),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(5),
+                                    child: Image.asset(
+                                      'images/ICON/Roof-OFF.png',
+                                      scale: 8,
+                                    ),
+                                  ),
+                                ]),
+                            const SizedBox(
+                              height: 10,
                             ),
-                          ),
-                        ]),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(0.5),
-                    child: Text(
-                      reset == 'OFF' ? 'Active' : 'Resetting...',
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
+                            const Text(
+                              'Roof',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  : InkWell(
+                      key: const ValueKey('Roof_ON'),
+                      onTap: () {
+                        if (mode == 'Manual') {
+                          _dataRTDB.child('System/Manual/Stepper').set("OFF");
+                        }
+                      },
+                      child: Container(
+                        padding:
+                            const EdgeInsets.only(left: 15, right: 15, top: 10),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
+                        decoration: BoxDecoration(
+                          color: const Color(0xffc7e5ff),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(5),
+                                    child: Image.asset(
+                                      'images/ICON/roof.png',
+                                      scale: 8,
+                                    ),
+                                  ),
+                                ]),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Text(
+                              'Roof',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            )
+            ),
           ],
         ),
         GridView.count(
@@ -516,104 +573,6 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                             ),
                             const Text(
                               'Fan',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-            ),
-            AnimatedSwitcher(
-              duration: const Duration(milliseconds: 200),
-              transitionBuilder: (Widget child, Animation<double> animation) {
-                return ScaleTransition(
-                  scale: animation,
-                  child: child,
-                );
-              },
-              child: !isRoof
-                  ? InkWell(
-                      key: const ValueKey('Roof_OFF'),
-                      onTap: () {
-                        if (mode == 'Manual') {
-                          _dataRTDB.child('System/Manual/Stepper').set("ON");
-                        }
-                      },
-                      child: Container(
-                        padding:
-                            const EdgeInsets.only(left: 15, right: 15, top: 10),
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 10),
-                        decoration: BoxDecoration(
-                          color: const Color(0xff9848E2),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.all(5),
-                                    child: Image.asset(
-                                      'images/ICON/Roof-OFF.png',
-                                      scale: 8,
-                                    ),
-                                  ),
-                                ]),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            const Text(
-                              'Roof',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-                  : InkWell(
-                      key: const ValueKey('Roof_ON'),
-                      onTap: () {
-                        if (mode == 'Manual') {
-                          _dataRTDB.child('System/Manual/Stepper').set("OFF");
-                        }
-                      },
-                      child: Container(
-                        padding:
-                            const EdgeInsets.only(left: 15, right: 15, top: 10),
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 10),
-                        decoration: BoxDecoration(
-                          color: const Color(0xffc7e5ff),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.all(5),
-                                    child: Image.asset(
-                                      'images/ICON/roof.png',
-                                      scale: 8,
-                                    ),
-                                  ),
-                                ]),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            const Text(
-                              'Roof',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 20,

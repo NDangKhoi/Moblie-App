@@ -174,13 +174,13 @@ class _HistoryPageState extends State<HistoryPage> {
             ),
           )),
       GridColumn(
-          columnName: 'Rain',
-          width: 80,
+          columnName: 'Weather',
+          width: 95,
           label: Container(
             padding: const EdgeInsets.all(8),
             alignment: Alignment.centerLeft,
             child: const Text(
-              'Rain',
+              'Weather',
               overflow: TextOverflow.clip,
               softWrap: true,
             ),
@@ -402,7 +402,7 @@ class ProducDataGridSource extends DataGridSource {
         DataGridCell<String>(
             columnName: 'Humidity', value: dataGridRows.Humidity),
         DataGridCell<String>(columnName: 'Light', value: dataGridRows.Light),
-        DataGridCell<String>(columnName: 'Rain', value: dataGridRows.Rain),
+        DataGridCell<String>(columnName: 'Weather', value: dataGridRows.Rain),
         DataGridCell<String>(columnName: 'Soil', value: dataGridRows.Soil),
         DataGridCell<String>(
             columnName: 'Temperature', value: dataGridRows.Temperature),

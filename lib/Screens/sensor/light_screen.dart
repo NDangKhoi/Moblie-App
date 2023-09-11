@@ -67,16 +67,18 @@ class _LightScreenState extends State<LightScreen> {
                   children: [
                     SizedBox(
                       height: 70,
-                      width: 80,
+                      width: 150,
                       child: TextFormField(
                         controller: textEditingController,
                         validator: (value) => (value!.isEmpty)
-                            ? null
+                            ? 'Vui lòng nhập giá trị'
                             : value.contains(',')
-                                ? 'Error'
-                                : num.parse(value) >= num.parse(_higher)
-                                    ? 'Invalid Value'
-                                    : null,
+                                ? 'Giá trị không hợp lệ'
+                                : num.parse(value) > 1000
+                                    ? 'Giá trị vượt ngưỡng'
+                                    : num.parse(value) >= num.parse(_higher)
+                                        ? 'Giá trị không hợp lệ'
+                                        : null,
                         onChanged: (value) => {setState(() => setLow = value)},
                         style: Theme.of(context).textTheme.bodyLarge,
                         keyboardType: TextInputType.number,
@@ -138,16 +140,18 @@ class _LightScreenState extends State<LightScreen> {
                   children: [
                     SizedBox(
                       height: 70,
-                      width: 80,
+                      width: 150,
                       child: TextFormField(
                         controller: textEditingController,
                         validator: (value) => (value!.isEmpty)
-                            ? null
+                            ? 'Vui lòng nhập giá trị'
                             : value.contains(',')
-                                ? 'Error'
-                                : num.parse(value) <= num.parse(_lower)
-                                    ? 'Invalid Value'
-                                    : null,
+                                ? 'Giá trị không hợp lệ'
+                                : num.parse(value) > 1000
+                                    ? 'Giá trị vượt ngưỡng'
+                                    : num.parse(value) <= num.parse(_lower)
+                                        ? 'Giá trị không hợp lệ'
+                                        : null,
                         onChanged: (value) => {setState(() => setHigh = value)},
                         style: Theme.of(context).textTheme.bodyLarge,
                         keyboardType: TextInputType.number,
