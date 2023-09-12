@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/cupertino.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
@@ -15,20 +16,67 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
+  DateTime dateTime = DateTime(2023, 2, 1, 10, 20);
+  int i = 0;
+  get query => null;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CupertinoPageScaffold(
+                  child: CupertinoButton(
+                child: Text(i == 0
+                    ? 'Select Date'
+                    : dateTime.day < 10 && dateTime.month < 10
+                        ? '0${dateTime.day}-0${dateTime.month}-${dateTime.year}'
+                        : dateTime.day < 10 && dateTime.month >= 10
+                            ? '0${dateTime.day}-${dateTime.month}-${dateTime.year}'
+                            : dateTime.day >= 10 && dateTime.month < 10
+                                ? '${dateTime.day}-0${dateTime.month}-${dateTime.year}'
+                                : '${dateTime.day}-${dateTime.month}-${dateTime.year}'),
+                onPressed: () {
+                  i = 1;
+                  showCupertinoModalPopup(
+                      context: context,
+                      builder: (BuildContext context) => SizedBox(
+                            height: 250,
+                            child: CupertinoDatePicker(
+                              backgroundColor: Colors.white,
+                              initialDateTime: dateTime,
+                              onDateTimeChanged: (DateTime newTime) {
+                                setState(() => dateTime = newTime);
+                              },
+                              use24hFormat: true,
+                              mode: CupertinoDatePickerMode.date,
+                            ),
+                          ));
+                },
+              )),
+            ],
+          ),
+          backgroundColor: const Color(0xffa04df8),
+          elevation: 0.0,
+        ),
         body: RefreshIndicator(
           onRefresh: refresh,
           child: FutureBuilder(
-              future: getProducDataSource(),
+              future: getProducDataSource(
+                  query: i == 0
+                      ? null
+                      : dateTime.day < 10 && dateTime.month < 10
+                          ? '0${dateTime.day}-0${dateTime.month}-${dateTime.year}'
+                          : dateTime.day < 10 && dateTime.month >= 10
+                              ? '0${dateTime.day}-${dateTime.month}-${dateTime.year}'
+                              : dateTime.day >= 10 && dateTime.month < 10
+                                  ? '${dateTime.day}-0${dateTime.month}-${dateTime.year}'
+                                  : '${dateTime.day}-${dateTime.month}-${dateTime.year}'),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 return snapshot.hasData
-                    ? SfDataGrid(
-                        source: snapshot.data,
-                        allowSorting: true,
-                        columns: getColumns())
+                    ? SfDataGrid(source: snapshot.data, columns: getColumns())
                     : const Center(
                         child: CircularProgressIndicator(
                           strokeWidth: 3,
@@ -40,8 +88,14 @@ class _HistoryPageState extends State<HistoryPage> {
     );
   }
 
-  Future<ProducDataGridSource> getProducDataSource() async {
+  Future<ProducDataGridSource> getProducDataSource({String? query}) async {
     var producList = await generateProducList();
+    if (query != null) {
+      producList = producList
+          .where((element) =>
+              element.Date.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    }
     return ProducDataGridSource(producList);
   }
 
@@ -49,7 +103,7 @@ class _HistoryPageState extends State<HistoryPage> {
     return <GridColumn>[
       GridColumn(
           columnName: 'Date',
-          width: 80,
+          width: 90,
           label: Container(
             padding: const EdgeInsets.all(8),
             alignment: Alignment.centerLeft,
@@ -132,7 +186,7 @@ class _HistoryPageState extends State<HistoryPage> {
             ),
           )),
       GridColumn(
-          columnName: 'Hmidity',
+          columnName: 'Humidity',
           width: 80,
           label: Container(
             padding: const EdgeInsets.all(8),
@@ -244,6 +298,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
   Future refresh() async {
     setState(() {
+      i = 0;
       generateProducList();
     });
   }
@@ -257,6 +312,7 @@ class _HistoryPageState extends State<HistoryPage> {
     List<Product> producList = await decodedProducts
         .map<Product>((json) => Product.fromJson(json))
         .toList();
+
     return producList;
   }
 }
