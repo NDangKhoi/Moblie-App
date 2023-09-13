@@ -137,44 +137,68 @@ class _ItemsWidgetState extends State<ItemsWidget> {
           shrinkWrap: true,
           children: [
             Container(
-              padding: const EdgeInsets.only(left: 5, top: 10),
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              decoration: BoxDecoration(
-                color: const Color(0xffc7e5ff),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Column(
-                children: [
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(5),
-                          child: AnimatedSwitcher(
-                            duration: const Duration(seconds: 2),
-                            child: mode == 'Manual'
-                                ? Image.asset('images/ICON/Manual.png',
-                                    scale: 8)
-                                : mode == 'Customer'
-                                    ? Image.asset('images/ICON/Customer.png',
-                                        scale: 8)
-                                    : Image.asset('images/ICON/Auto.png',
-                                        scale: 8),
+                padding: const EdgeInsets.only(left: 5, top: 10),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                decoration: BoxDecoration(
+                  color: const Color(0xffc7e5ff),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: mode == 'Customer'
+                    ? Column(
+                        children: [
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(5),
+                                  child: Image.asset(
+                                    'images/ICON/Customer.png',
+                                    scale: 8,
+                                  ),
+                                ),
+                              ]),
+                          const SizedBox(
+                            height: 10,
                           ),
-                        ),
-                        Text(
-                          mode,
-                          style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        )
-                      ]),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  modeSwitch()
-                ],
-              ),
-            ),
+                          const Text(
+                            'Customer',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      )
+                    : Column(
+                        children: [
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(5),
+                                  child: AnimatedSwitcher(
+                                    duration: const Duration(seconds: 2),
+                                    child: mode == 'Manual'
+                                        ? Image.asset('images/ICON/Manual.png',
+                                            scale: 8)
+                                        : Image.asset('images/ICON/Auto.png',
+                                            scale: 8),
+                                  ),
+                                ),
+                                Text(
+                                  mode,
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ]),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          modeSwitch()
+                        ],
+                      )),
             AnimatedSwitcher(
               duration: const Duration(milliseconds: 200),
               transitionBuilder: (Widget child, Animation<double> animation) {

@@ -91,7 +91,7 @@ class _SensorWidgetState extends State<SensorWidget> {
                           scale: 8,
                         ),
                         const Text(
-                          'Temperature',
+                          'Temp',
                           style: TextStyle(
                               fontSize: 19, fontWeight: FontWeight.bold),
                         )
@@ -280,7 +280,7 @@ class _SensorWidgetState extends State<SensorWidget> {
                           scale: 8,
                         ),
                         const Text(
-                          'Soil moisture',
+                          'Soil',
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         )
